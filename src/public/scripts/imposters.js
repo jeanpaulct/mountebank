@@ -44,12 +44,11 @@ const explain = (cell, explanations) => {
     const select = $('select', cell),
         explanation = $('span', cell);
 
-    select.on('change', () => {
+    select.on('change', (e) => {
         // In Mac Chrome, it seems the selection doesn't change sometimes unless the select
         // loses focus.  This next line seems to reduce the frequency of that, but it may
         // just be a combination of superstition and ignorance...
-        console.log($(this).val());
-        explanation.text(explanations[$(this).val()]);
+        explanation.text(explanations[$(e.target).val()]);
     });
     select.trigger('change');
 };
@@ -160,8 +159,8 @@ const request = (verb, path, json) => {
 const updateLinks = () => {
     $('a').off('click');
 
-    $('#imposters a').on('click', () => {
-        const link = $(this),
+    $('#imposters a').on('click', (e) => {
+        const link = $(e.target),
             row = link.closest('tr'),
             imposter = (row.attr('id') || '').replace('imposter-', ''),
             url = `/imposters/${imposter}`,
@@ -237,9 +236,9 @@ const createDialog = (selector, title, clickCallback) => {
         buttons: [
             {
                 text: 'Create',
-                click: () => {
+                click: (e) => {
                     clickCallback();
-                    $(this).dialog('close');
+                    $(e.target).dialog('close');
                 }
             }
         ]
